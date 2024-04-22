@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/js/bootstrap.bundle";
@@ -28,22 +28,52 @@ export default function SideNav() {
         <div className="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
           <ul className="nav flex-column">
             <li className="nav-item">
-              <Link
+              <NavLink
                 to="/chat"
-                className="nav-link d-flex align-items-center gap-2 active"
+                className={(isActive) =>
+                  "nav-link d-flex align-items-center gap-2" +
+                  (!isActive ? " active" : "")
+                }
                 aria-current="page"
               >
-                <i className="bi bi-chat"></i> Chat UI
-              </Link>
+                <i className="bi bi-wechat"></i> Chat UI
+              </NavLink>
             </li>
             <li className="nav-item">
-              <Link
+              <NavLink
                 to="/bot"
-                className="nav-link d-flex align-items-center gap-2 active"
+                className={(isActive) =>
+                  "nav-link d-flex align-items-center gap-2" +
+                  (!isActive ? " active" : "")
+                }
                 aria-current="page"
               >
-                <i className="bi bi-wechat"></i> Chat Window
-              </Link>
+                <i className="bi bi-chat-square-text"></i> Chat Window
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/table"
+                className={(isActive) =>
+                  "nav-link d-flex align-items-center gap-2" +
+                  (!isActive ? " active" : "")
+                }
+                aria-current="page"
+              >
+                <i className="bi bi-table"></i> Table View
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink
+                to="/cards"
+                className={(isActive) =>
+                  "nav-link d-flex align-items-center gap-2" +
+                  (!isActive ? " active" : "")
+                }
+                aria-current="page"
+              >
+                <i className="bi bi-card-text"></i> Card View
+              </NavLink>
             </li>
           </ul>
         </div>
