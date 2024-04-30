@@ -1,0 +1,10 @@
+/* Custom CSS for sticky header */
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Ensures the header stays above other content */
+  }
+  .scrollable-content {
+    max-height: 400px; /* Adjust the height according to your needs */
+    overflow-y: auto; /* Enable vertical scrolling */
+  }
