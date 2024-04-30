@@ -5,6 +5,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './Components/Home';
 import ChatWindow from './Components/ChatWindow';
 import ChatUI from './Components/ChatUI';
+import Feedback from './Components/feedback';
 
 export default function App() {
   return (
@@ -16,6 +17,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/chat" element={<ChatUI />} />
             <Route path="/bot" element={<ChatWindow />} />
+            <Route path="/feedback" element={<Feedback />} />
           </Routes>
         </div>
       </BrowserRouter>

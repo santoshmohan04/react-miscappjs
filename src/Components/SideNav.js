@@ -10,6 +10,7 @@ export default function SideNav() {
       <div className="sidenav">
         <Link to="/chat">Chat UI</Link>
         <Link to="/bot">Chat Window</Link>
+        <Link to="/feedback">Feedback Card</Link>
       </div>
     </React.Fragment>
   );
