@@ -1,46 +1,126 @@
 import React from "react";
-import axios from "axios";
+import "../style.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { usersList } from "../data/users.data";
+import userimg from "../assets/images/img_avatar3.png"
 
 export default function Home() {
-  const [users, setUsers] = React.useState([]);
+  const [users, setUsers] = React.useState(usersList);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  const [usersPerPage] = React.useState(10);
+  const [selecteduser, setSelectedUser] = React.useState(null);
 
   React.useEffect(() => {
-    axios
-      .get("https://freetestapi.com/api/v1/users")
-      .then((response) => {
-        setUsers(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    const sortedUsers = [...users].sort((a, b) => a.age - b.age);
+    setUsers(sortedUsers);
   }, []);
 
+  // Logic for pagination
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+
+  // Change page
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const handleSelectedUser = (data) => {
+    setSelectedUser(data);
+  }
+
   return (
-    <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-      <div className="table-responsive table-wrapper">
-        <table className="table table-striped">
-          <thead className="table-header">
+    <React.Fragment>
+      <div className="mt-5">
+        <h1 className="text-center">Users Data</h1>
+        <table className="table table-bordered table-hover">
+          <thead className="sticky-header table-dark">
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">Name</th>
-              <th scope="col">Age</th>
-              <th scope="col">Email</th>
-              <th scope="col">Occupation</th>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Age</th>
             </tr>
           </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-                <td>{user.age}</td>
-                <td>{user.email}</td>
-                <td>{user.occupation}</td>
+          <tbody className="scrollable-content">
+            {currentUsers.map((t) => (
+              <tr
+                key={t.id}
+                data-bs-toggle="modal"
+                data-bs-target="#userinfoModal"
+                onClick={() => handleSelectedUser(t)}
+              >
+                <td>{t.id}</td>
+                <td>{t.name}</td>
+                <td>{t.email}</td>
+                <td>{t.age}</td>
               </tr>
             ))}
           </tbody>
         </table>
+
+        {/* Pagination */}
+        <nav>
+          <ul className="pagination justify-content-center">
+            {[...Array(Math.ceil(users.length / usersPerPage)).keys()].map(
+              (number) => (
+                <li
+                  key={number}
+                  className={`page-item ${
+                    currentPage === number + 1 ? "active" : ""
+                  }`}
+                >
+                  <button
+                    onClick={() => paginate(number + 1)}
+                    className="page-link"
+                  >
+                    {number + 1}
+                  </button>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
       </div>
-    </main>
+
+      {/* The Modal */}
+      <div className="modal" id="userinfoModal">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            {/* Modal Header */}
+            <div className="modal-header">
+              <h4 className="modal-title">{selecteduser?.name}</h4>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+
+            {/* Modal body */}
+            <div className="modal-body">
+            <div className="card" style={{width:450 + 'px'}}>
+              <img className="card-img-top" src={userimg} alt="Card image" height={400 + 'px'}/>
+              <div className="card-body">
+                <h4 className="card-title">{selecteduser?.occupation}</h4>
+                <p className="card-text d-inline">{selecteduser?.hobbies.toString()}</p>
+              </div>
+            </div>
+            </div>
+
+            {/* Modal footer */}
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
