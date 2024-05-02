@@ -1,3 +1,5 @@
+import React from "react";
+
 export default function Review({ feedback, student }) {
     return (
       <figure>

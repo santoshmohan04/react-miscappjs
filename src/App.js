@@ -6,11 +6,14 @@ import Home from './Components/Home';
 import ChatWindow from './Components/ChatWindow';
 import ChatUI from './Components/ChatUI';
 import Feedback from './Components/feedback';
+import { Provider } from 'react-redux'
+import store from './redux/store'
 
 export default function App() {
   return (
     <React.Fragment>
       <BrowserRouter>
+      <Provider store={store}>
         <SideNav />
         <div className="main">
           <Routes>
@@ -20,6 +23,7 @@ export default function App() {
             <Route path="/feedback" element={<Feedback />} />
           </Routes>
         </div>
+        </Provider>
       </BrowserRouter>
     </React.Fragment>
   );

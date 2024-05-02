@@ -1,21 +1,22 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
 import "../style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import { usersList } from "../data/users.data";
 import userimg from "../assets/images/img_avatar3.png"
+import { fetchUsers } from '../redux'
 
 export default function Home() {
-  const [users, setUsers] = React.useState(usersList);
+  const users = useSelector(state => state.user.users);
+  const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = React.useState(1);
   const [usersPerPage] = React.useState(10);
   const [selecteduser, setSelectedUser] = React.useState(null);
 
   React.useEffect(() => {
-    const sortedUsers = [...users].sort((a, b) => a.age - b.age);
-    setUsers(sortedUsers);
-  }, []);
+    dispatch(fetchUsers())
+  }, [dispatch]);
 
   // Logic for pagination
   const indexOfLastUser = currentPage * usersPerPage;
@@ -100,7 +101,7 @@ export default function Home() {
             {/* Modal body */}
             <div className="modal-body">
             <div className="card" style={{width:450 + 'px'}}>
-              <img className="card-img-top" src={userimg} alt="Card image" height={400 + 'px'}/>
+              <img className="card-img-top" src={userimg} alt="user profile" height={400 + 'px'}/>
               <div className="card-body">
                 <h4 className="card-title">{selecteduser?.occupation}</h4>
                 <p className="card-text d-inline">{selecteduser?.hobbies.toString()}</p>
